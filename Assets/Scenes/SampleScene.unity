@@ -51998,6 +51998,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ef7393df928d94e944155771ecad83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hazard: {fileID: 55043875}
+  hazards:
+  - {fileID: 55043875}
+  - {fileID: 944167568}
+  - {fileID: 1712148512}
+  - {fileID: 1131623782}
+  - {fileID: 1098860715}
+  - {fileID: 243930098}
 --- !u!135 &1885375098
 SphereCollider:
   m_ObjectHideFlags: 0

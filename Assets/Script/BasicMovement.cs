@@ -13,17 +13,23 @@ public class BasicMovement : MonoBehaviour
     Vector3 movePlayer;
     Vector3 levelTwo;
     Vector3 levelThree;
-    // Start is called before the first frame update
+    Vector3 retry;
+    public GameObject [] hazards;
     void Start()
     {
        movePlayer = new Vector3(0f, 0f, 1f);
+       retry = new Vector3(0f, 1f, 0f);
        levelTwo = new Vector3(7f, 1f, 35f);
        levelThree = new Vector3(0f, 1f, 70f);
+       
+      // hazards = new GameObject [6];
+
     }
 
     // Update is called once per frame
     void Update(){
         controls();
+        collisions();
         win();
     }
 
@@ -56,6 +62,14 @@ public class BasicMovement : MonoBehaviour
             transform.position += Vector3.down;
         }
 
+    }
+
+    void collisions(){
+        for (int i = 0; i < hazards.Length; i++){
+            if (transform.position == hazards[i].transform.position){
+                transform.position = retry;
+            }
+        }
     }
 
     void win(){

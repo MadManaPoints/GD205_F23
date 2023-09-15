@@ -8,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
     public float moveForward = 1.0f; 
     public float moveBackward = -1.0f;
     Vector3 moveEnemy; 
+
     void Start()
     {
         moveEnemy = new Vector3(0f, 0f, moveForward);
