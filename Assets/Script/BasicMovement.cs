@@ -12,6 +12,8 @@ public class BasicMovement : MonoBehaviour
 {
     Vector3 movePlayer;
     Vector3 levelTwo;
+    bool firstThreshold = false;
+    bool secondThreshold = false;
     Vector3 levelThree;
     Vector3 retry;
     public GameObject [] hazards;
@@ -67,7 +69,13 @@ public class BasicMovement : MonoBehaviour
     void collisions(){
         for (int i = 0; i < hazards.Length; i++){
             if (transform.position == hazards[i].transform.position){
-                transform.position = retry;
+                if (secondThreshold == true){
+                    transform.position = levelThree;
+                } else if (firstThreshold == true){
+                    transform.position = levelTwo;
+                } else {
+                    transform.position = retry;
+                }
             }
         }
     }
@@ -78,6 +86,7 @@ public class BasicMovement : MonoBehaviour
             transform.position += Vector3.up * 0.05f;
             if (transform.position.y > 20){
                 transform.position = levelTwo;
+                firstThreshold = true; 
             }
         }
 
@@ -86,6 +95,8 @@ public class BasicMovement : MonoBehaviour
             transform.position += Vector3.up * 0.05f;
             if (transform.position.y > 20 && transform.position.z > 20){
                 transform.position = levelThree;
+                firstThreshold = false;
+                secondThreshold = true;
             }
         }
     }
