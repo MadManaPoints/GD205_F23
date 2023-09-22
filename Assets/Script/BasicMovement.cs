@@ -1,5 +1,4 @@
 // These are called Directives
-
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,15 +16,18 @@ public class BasicMovement : MonoBehaviour
     Vector3 levelThree;
     Vector3 retry;
     public GameObject [] hazards;
+    public GameObject [] walls;
+    public AudioClip death;
+    AudioSource player;
     void Start()
     {
        movePlayer = new Vector3(0f, 0f, 1f);
-       retry = new Vector3(0f, 1f, 0f);
+       retry = transform.position; 
        levelTwo = new Vector3(7f, 1f, 35f);
        levelThree = new Vector3(0f, 1f, 70f);
-       
+       //well get audio attached to this object 
+       player = GetComponent<AudioSource>();
       // hazards = new GameObject [6];
-
     }
 
     // Update is called once per frame
@@ -63,7 +65,6 @@ public class BasicMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)){
             transform.position += Vector3.down;
         }
-
     }
 
     void collisions(){
@@ -76,6 +77,7 @@ public class BasicMovement : MonoBehaviour
                 } else {
                     transform.position = retry;
                 }
+                player.PlayOneShot(death, .75f);
             }
         }
     }
@@ -86,7 +88,7 @@ public class BasicMovement : MonoBehaviour
             transform.position += Vector3.up * 0.05f;
             if (transform.position.y > 20){
                 transform.position = levelTwo;
-                firstThreshold = true; 
+                firstThreshold = true;
             }
         }
 
@@ -100,6 +102,4 @@ public class BasicMovement : MonoBehaviour
             }
         }
     }
-
 }
-
