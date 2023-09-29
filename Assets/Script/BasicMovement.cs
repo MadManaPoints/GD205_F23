@@ -126,7 +126,6 @@ public class BasicMovement : MonoBehaviour
                 if (keyArray[n] && transform.position == goals[i].transform.position + aboveGoal){
                     print("YOU WIN!");
                     keyArray[n] = false;
-                    player.PlayOneShot(rise, .6f);
                     nextLevel = true;
                 }
             }
@@ -135,6 +134,7 @@ public class BasicMovement : MonoBehaviour
             if (nextLevel){
                 if (!secondThreshold){
                     transform.position += Vector3.up * 0.05f;
+                    player.PlayOneShot(rise, .6f);
                 } else {
                     player.PlayOneShot(cheer, .3f);
                 }    
