@@ -36151,7 +36151,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295316991}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1295316993
 Camera:
   m_ObjectHideFlags: 0
@@ -53471,7 +53471,7 @@ MonoBehaviour:
   death: {fileID: 8300000, guid: 9da1ed9aa42ed1f4dbb6846c2b4416a2, type: 3}
   rise: {fileID: 8300000, guid: 164ae3bfdbb1ada4eb3fbcc3c6caf26b, type: 3}
   key: {fileID: 8300000, guid: d2f96285ad9392f43af7ef10aaa9ff9b, type: 3}
-  cheer: {fileID: 8300000, guid: 02822f51bb45ae94a816a4503d78ca5c, type: 3}
+  cheer: {fileID: 8300000, guid: bba1163c7a6972047bd40d78338e8dd8, type: 3}
 --- !u!135 &1885375098
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -58175,7 +58175,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057434523}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &2057434525
 Camera:
   m_ObjectHideFlags: 0

@@ -131,13 +131,9 @@ public class BasicMovement : MonoBehaviour
             }
         }
             
-            if (nextLevel){
-                if (!secondThreshold){
-                    transform.position += Vector3.up * 0.05f;
-                    player.PlayOneShot(rise, .6f);
-                } else {
-                    player.PlayOneShot(cheer, .3f);
-                }    
+            if (nextLevel && !secondThreshold){
+                transform.position += Vector3.up * 0.05f;
+                player.PlayOneShot(rise, .6f);
             }
 
             if (transform.position.y > 20 && firstThreshold){

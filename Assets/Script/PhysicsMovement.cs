@@ -24,7 +24,7 @@ public class PhysicsMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         controls();
         movePlayer();
@@ -88,6 +88,15 @@ public class PhysicsMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.J)){
             rb.velocity *= 0.95f; 
+        }
+    }
+
+    void OnCollisionEnter(Collision col){
+        if (col.gameObject.tag != "Opp"){
+            rb.useGravity = true;
+            GetComponent<ParticleSystem>().Play();
+        } else {
+            Destroy(col.gameObject);
         }
     }
 }

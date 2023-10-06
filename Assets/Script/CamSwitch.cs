@@ -7,6 +7,8 @@ public class CamSwitch : MonoBehaviour
     public GameObject cam1;
     public GameObject cam2;
     public GameObject cam3;
+
+
     void Start()
     {
         cam1.SetActive(true);
