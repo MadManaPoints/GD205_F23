@@ -8,7 +8,9 @@ public class EnemyPhysics : MonoBehaviour
     Rigidbody rb;
     public Transform player;
     float direction;
-    public float forceMult = 2f; 
+    public float maxSpeed = 25;
+    public float forceMult = 5f; 
+    private bool run = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,8 +19,25 @@ public class EnemyPhysics : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        var direction = (player.transform.position - this.transform.position);
-        rb.AddForce(Vector3.Normalize(direction * forceMult));
+        if (rb.velocity.magnitude > maxSpeed){
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+         
+        if (run){
+            var direction = (player.transform.position - this.transform.position);
+            rb.AddForce(Vector3.Normalize(-direction) * forceMult);
+        }
+    }
 
+    void OnTriggerEnter(Collider col){
+        if (col.gameObject.tag == "Player"){
+            run = true;
+        }
+    }
+
+    void OnTriggerExit(Collider col){
+        if (col.gameObject.tag == "Player"){
+            run = false;
+        }
     }
 }

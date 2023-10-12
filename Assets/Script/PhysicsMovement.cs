@@ -5,29 +5,36 @@ using UnityEngine;
 public class PhysicsMovement : MonoBehaviour
 {
     Rigidbody rb;
-    public float force_mult = 20f;
-    public float maxSpeed = 100f; 
+    public float forceMult = 0f;
+    public float hForceMult = 0f;
+    public float vForceMult = 0f;
+    public float maxSpeed = 144f; 
+    public float turnSpeed = 50f; 
 
-    bool moveForward;
-    bool moveBackward;
-    bool moveLeft;
-    bool moveRight;
-    bool moveUp;
-    bool moveDown; 
+    public float vInput;
+    public float hInput;
+    private bool forward;
+    private bool backward;
+    private bool left;
+    private bool right;
+    private bool up;
+    private bool down;    
+    private bool crash;
+    private Vector3 grow = new Vector3(.5f, .5f, .5f);
+    private float bigBoy = 4f;
 
-    //HW IS TO CREATE AN ALIEN OBSTACLE COURSE
-
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        controls();
-        movePlayer();
+        if (!crash){
+            controls();
+            movePlayer();
+        }
+        
         //limits speed
         if (rb.velocity.magnitude > maxSpeed){
 			rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
@@ -35,68 +42,79 @@ public class PhysicsMovement : MonoBehaviour
     }
 
     void movePlayer(){
-        if (moveForward){
-            rb.AddForce(transform.forward * force_mult);
-        }
-        if (moveLeft){
-            rb.AddForce(-transform.right * force_mult);
-        }
-        if (moveBackward){
-            rb.AddForce(-transform.forward * force_mult);
-        }
-        if (moveRight){
-            rb.AddForce(transform.right * force_mult);
-        }
-        if (moveUp){
-            rb.AddForce(transform.up * force_mult);
-        }
-        if (moveDown){
-            rb.AddForce(-transform.up * force_mult);
-        }
-    }
 
-    void controls(){
-        if (Input.GetKey(KeyCode.W)){
-            moveForward = true;
-        } else {
-            moveForward = false;
+        vInput = Input.GetAxis("Vertical");
+        hInput = Input.GetAxis("Horizontal");
+
+        if (forward || backward){
+            rb.AddForce(transform.forward * forceMult * vInput);
         }
-        if (Input.GetKey(KeyCode.A)){
-            moveLeft = true;
-        } else {
-            moveLeft = false;
+        
+        if (left || right){
+            if (forward || backward){
+                rb.transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * hInput);
+            } else {
+                rb.AddForce(transform.right * hForceMult * hInput);
+            }
         }
-        if (Input.GetKey(KeyCode.S)){
-            moveBackward = true;
-        } else {
-            moveBackward = false;
+
+        if (up){
+            rb.AddForce(transform.up * vForceMult);
         }
-        if (Input.GetKey(KeyCode.D)){
-            moveRight = true;
-        } else {
-            moveRight = false;
+        if (down){
+            rb.AddForce(-transform.up * vForceMult);
         }
-        if (Input.GetKey(KeyCode.E)){
-            moveUp = true;
-        } else {
-            moveUp = false;
-        }
-        if (Input.GetKey(KeyCode.Q)){
-            moveDown = true;
-        } else {
-            moveDown = false;
-        }
+
         if (Input.GetKey(KeyCode.J)){
             rb.velocity *= 0.95f; 
         }
     }
 
+    void controls(){
+        if (Input.GetKey(KeyCode.W)){
+            forward = true; 
+        } else {
+            forward = false;
+        }
+        if (Input.GetKey(KeyCode.S)){
+            backward = true;
+        } else {
+            backward = false;
+        }
+        if (Input.GetKey(KeyCode.A)){
+            left = true;
+        } else {
+            left = false;
+        }
+        if (Input.GetKey(KeyCode.D)){
+            right = true;
+        } else {
+            right = false;
+        }
+        if (Input.GetKey(KeyCode.Q)){
+            down = true;
+        } else {
+            down = false;
+        }
+        if (Input.GetKey(KeyCode.E)){
+            up = true;
+        } else {
+            up = false;
+        }
+    }
+
     void OnCollisionEnter(Collision col){
-        if (col.gameObject.tag != "Opp"){
+        if (col.gameObject.tag != "Opp" && col.gameObject.tag != "Ship"){
+            crash = true;
             rb.useGravity = true;
             GetComponent<ParticleSystem>().Play();
-        } else {
+        } else if (col.gameObject.tag == "Opp"){
             Destroy(col.gameObject);
+            transform.localScale += grow;
+        } else if (col.gameObject.tag == "Ship" && transform.localScale.x > bigBoy){
+            Destroy(col.gameObject);
+        } else {
+            Destroy(gameObject);
         }
     }
 }
