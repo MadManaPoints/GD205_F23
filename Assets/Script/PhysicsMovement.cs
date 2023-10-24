@@ -21,11 +21,14 @@ public class PhysicsMovement : MonoBehaviour
     private bool down;    
     private bool crash;
     private Vector3 grow = new Vector3(.5f, .5f, .5f);
-    private float bigBoy = 4f;
+    private float bigBoy = 3f;
+    AudioSource ship; 
+    public AudioClip explosion; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ship = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -52,9 +55,9 @@ public class PhysicsMovement : MonoBehaviour
         
         if (left || right){
             if (forward || backward){
-                rb.transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * hInput);
-            } else {
                 rb.AddForce(transform.right * hForceMult * hInput);
+            } else {
+                rb.transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * hInput);
             }
         }
 
@@ -110,9 +113,11 @@ public class PhysicsMovement : MonoBehaviour
             GetComponent<ParticleSystem>().Play();
         } else if (col.gameObject.tag == "Opp"){
             Destroy(col.gameObject);
+            ship.PlayOneShot(explosion, 5f);
             transform.localScale += grow;
-        } else if (col.gameObject.tag == "Ship" && transform.localScale.x > bigBoy){
+        } else if (col.gameObject.tag == "Ship" && transform.localScale.x >= bigBoy){
             Destroy(col.gameObject);
+            ship.PlayOneShot(explosion, 5f);
         } else {
             Destroy(gameObject);
         }
