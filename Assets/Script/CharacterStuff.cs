@@ -32,6 +32,15 @@ public class CharacterStuff : MonoBehaviour
         anim.SetFloat("Run Left", running);
         anim.SetFloat("Run Right", running);
         
+        if(Input.GetKeyDown(KeyCode.F)){
+            anim.SetBool("Dance", true);
+        }
+        
+        if(Input.GetKeyUp(KeyCode.F)){
+        anim.SetBool("Dance", false);
+        }
+
+        
         if (Input.GetKeyDown(KeyCode.Space)){
             anim.SetTrigger("Jump Trig");
         }
